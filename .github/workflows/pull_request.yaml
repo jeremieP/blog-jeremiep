@@ -6,13 +6,12 @@ jobs:
   node_modules:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
       - uses: actions/cache@v3
-        id: cache-packages  # give it a name for checking the cache hit-or-not
+        id: cache-packages # give it a name for checking the cache hit-or-not
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
