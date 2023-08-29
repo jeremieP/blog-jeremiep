@@ -11,7 +11,7 @@ const ThemeSwitch = () => {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) {
-    return null
+    return <div className="h-6 w-6"></div>
   }
 
   return (

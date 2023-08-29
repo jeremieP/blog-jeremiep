@@ -1,25 +1,41 @@
-import Link from '@/components/Link'
+'use client' // Use it to avoid being ServerComponent by design (because we need useEffect)
+
+import Link from 'next/link'
+import { VT323 } from 'next/font/google'
+
+import { DeadLink } from '../components/DeadLink'
+import { useEffect } from 'react'
+
+const VT323Font = VT323({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function NotFound() {
+  useEffect(() => {
+    const audioRef = new Audio('/static/404/deadlink-sound.mp3')
+    setTimeout(async () => {
+      try {
+        await audioRef.play()
+      } catch (e) {
+        console.error('Promise : Bad timing for Audio')
+      }
+    }, 900)
+  }, [])
+
   return (
-    <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
-      <div className="space-x-2 pb-8 pt-6 md:space-y-5">
-        <h1 className="text-6xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 md:border-r-2 md:px-6 md:text-8xl md:leading-14">
-          404
-        </h1>
-      </div>
-      <div className="max-w-md">
-        <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">
-          Sorry we couldn't find this page.
-        </p>
-        <p className="mb-8">But dont worry, you can find plenty of other things on our homepage.</p>
-        <Link
-          href="/"
-          className="focus:shadow-outline-blue inline rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500"
-        >
-          Back to homepage
-        </Link>
-      </div>
+    <div className="flex items-center flex-col mx-auto w-full px-8">
+      <DeadLink />
+      <h1 className={`${VT323Font.className} font-bold mt-2 mb-2 text-3xl text-center text-white`}>
+        Oops ! You found a dead Link !
+      </h1>
+      <Link
+        href="/"
+        className={`animate-pulse ${VT323Font.className} font-bold mb-4 text-3xl text-center text-white`}
+      >
+        Continue ?
+      </Link>
     </div>
   )
 }
